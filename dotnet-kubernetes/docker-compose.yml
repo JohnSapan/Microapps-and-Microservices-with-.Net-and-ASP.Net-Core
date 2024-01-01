@@ -9,7 +9,7 @@ services:
       dockerfile: DockerfileStore
     environment: 
       - ProductEndpoint=http://backend:8080
-      - ImagePrefix=https://9fj6kdfq-32001.use.devtunnels.ms/images
+      - ImagePrefix=http://localhost:32001/images
     ports:
       - "32000:8080"
     depends_on: 
