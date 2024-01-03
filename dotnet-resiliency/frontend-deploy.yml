@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: storefrontend
-        image: [YOUR DOCKER USER NAME]/storeimage:latest
+        image: qwazers/storeimage:latest
         ports:
         - containerPort: 80
         env:
@@ -21,7 +21,7 @@ spec:
         - name: ProductEndpoint
           value: http://productsbackend
         - name: ImagePrefix
-          value: http://localhost/images
+          value: http://localhost:32001/images
   selector:
     matchLabels:
       app: storefrontend
