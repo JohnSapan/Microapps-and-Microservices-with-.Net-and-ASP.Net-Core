@@ -6,6 +6,12 @@ RUN dotnet restore
 COPY "eShopLite/DataEntities" .
 RUN dotnet publish -c release -o /app
 
+WORKDIR /Diagnostics
+COPY "eShopLite/Diagnostics/Diagnostics.csproj" .
+RUN dotnet restore
+COPY "eShopLite/Diagnostics" .
+RUN dotnet publish -c release -o /app
+
 WORKDIR /src
 COPY "eShopLite/Products/Products.csproj" .
 RUN dotnet restore
