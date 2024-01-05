@@ -17,5 +17,5 @@ app.MapProductEndpoints();
 app.UseStaticFiles();
 
 app.CreateDbIfNotExists();
-
+app.MapObservability();
 app.Run();

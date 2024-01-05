@@ -2,6 +2,7 @@
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +17,10 @@ public static class DiagnosticServiceCollectionExtensions
 
     // add the OpenTelemetry services
     var otelBuilder = services.AddOpenTelemetry();
-
+    if (!string.IsNullOrEmpty(configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
+    {
+      otelBuilder.UseAzureMonitor();
+    }
     otelBuilder
         // add the metrics providers
         .WithMetrics(metrics =>
@@ -35,7 +39,7 @@ public static class DiagnosticServiceCollectionExtensions
                       "System.Net.Sockets");
             })
             .AddMeter("Microsoft.AspNetCore.Hosting", "Microsoft.AspNetCore.Server.Kestrel")
-            .AddConsoleExporter();
+            .AddPrometheusExporter();
 
         })
         // add the tracing providers
@@ -44,9 +48,18 @@ public static class DiagnosticServiceCollectionExtensions
           tracing.SetResourceBuilder(resource)
                       .AddAspNetCoreInstrumentation()
                       .AddHttpClientInstrumentation()
-                      .AddSqlClientInstrumentation();
+                      .AddSqlClientInstrumentation()
+                      .AddZipkinExporter(zipkin =>
+                      {
+                        var zipkinUrl = configuration["ZIPKIN_URL"] ?? "http://zipkin:9411";
+                        zipkin.Endpoint = new Uri($"{zipkinUrl}/api/v2/spans");
+                      });
         });
 
     return services;
+  }
+  public static void MapObservability(this IEndpointRouteBuilder routes)
+  {
+    routes.MapPrometheusScrapingEndpoint();
   }
 }
