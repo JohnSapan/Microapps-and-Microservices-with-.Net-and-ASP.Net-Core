@@ -6,7 +6,7 @@ namespace Products.Endpoints;
 
 public static class ProductEndpoints
 {
-    public static void MapProductEndpoints (this IEndpointRouteBuilder routes)
+    public static void MapProductEndpoints(this IEndpointRouteBuilder routes)
     {
         var group = routes.MapGroup("/api/Product");
 
@@ -17,7 +17,7 @@ public static class ProductEndpoints
         .WithName("GetAllProducts")
         .Produces<List<Product>>(StatusCodes.Status200OK);
 
-        group.MapGet("/{id}", async  (int id, ProductDataContext db) =>
+        group.MapGet("/{id}", async (int id, ProductDataContext db) =>
         {
             return await db.Product.AsNoTracking()
                 .FirstOrDefaultAsync(model => model.Id == id)
@@ -29,7 +29,7 @@ public static class ProductEndpoints
         .Produces<Product>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        group.MapPut("/{id}", async  (int id, Product product, ProductDataContext db) =>
+        group.MapPut("/{id}", async (int id, Product product, ProductDataContext db) =>
         {
             var affected = await db.Product
                 .Where(model => model.Id == id)
@@ -52,12 +52,12 @@ public static class ProductEndpoints
         {
             db.Product.Add(product);
             await db.SaveChangesAsync();
-            return Results.Created($"/api/Product/{product.Id}",product);
+            return Results.Created($"/api/Product/{product.Id}", product);
         })
         .WithName("CreateProduct")
         .Produces<Product>(StatusCodes.Status201Created);
 
-        group.MapDelete("/{id}", async  (int id, ProductDataContext db) =>
+        group.MapDelete("/{id}", async (int id, ProductDataContext db) =>
         {
             var affected = await db.Product
                 .Where(model => model.Id == id)
@@ -71,7 +71,7 @@ public static class ProductEndpoints
 
         var stock = routes.MapGroup("/api/Stock");
 
-        stock.MapGet("/{id}", async  (int id, ProductDataContext db) =>
+        stock.MapGet("/{id}", async (int id, ProductDataContext db) =>
         {
             return await db.Product.AsNoTracking()
                 .FirstOrDefaultAsync(model => model.Id == id)
@@ -83,8 +83,11 @@ public static class ProductEndpoints
         .Produces<Product>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        stock.MapPut("/{id}", async  (int id, int stockAmount, ProductDataContext db) =>
+        stock.MapPut("/{id}", async (int id, int stockAmount, ProductDataContext db, ProductsMetrics metrics) =>
         {
+            // Increment the stock change metric.
+            metrics.StockChange(stockAmount);
+
             var affected = await db.Product
                 .Where(model => model.Id == id)
                 .ExecuteUpdateAsync(setters => setters
@@ -93,8 +96,8 @@ public static class ProductEndpoints
 
             return affected == 1 ? Results.Ok() : Results.NotFound();
         })
-        .WithName("UpdateStockById")
-        .Produces<Product>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound);
+                .WithName("UpdateStockById")
+                .Produces<Product>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound);
     }
 }
