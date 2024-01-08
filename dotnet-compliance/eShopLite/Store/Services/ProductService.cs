@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Store.Services;
 
-public class ProductService
+public partial class ProductService
 {
   HttpClient httpClient;
   private readonly ILogger<ProductService> _logger;
@@ -31,7 +31,7 @@ public class ProductService
         };
 
         products = await response.Content.ReadFromJsonAsync(ProductSerializerContext.Default.ListProduct);
-        
+
       }
     }
     catch (Exception ex)
@@ -70,24 +70,30 @@ public class ProductService
 
   public async Task<bool> CreateOrder(Order order)
   {
-      try
-      {
-          var response = await httpClient.PostAsync("/api/Order", new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json"));
+    try
+    {
+       _logger.LogOrders(order);
+      var response = await httpClient.PostAsync("/api/Order", new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json"));
 
-          if (response.IsSuccessStatusCode)
-          {
-              var responseContent = await response.Content.ReadAsStringAsync();
-              return true;
-          }
-
-          return false;
-      }
-      catch (Exception ex)
+      if (response.IsSuccessStatusCode)
       {
-          // handle error  
-          return false;
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return true;
       }
+
+      return false;
+    }
+    catch (Exception ex)
+    {
+      // handle error  
+      return false;
+    }
   }
 
 
 }
+  public static partial class Log
+  {
+    [LoggerMessage(1, LogLevel.Information, "Placed Order: {order}")]
+    public static partial void LogOrders(this ILogger logger, [LogProperties] Order order);
+  }

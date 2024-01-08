@@ -1,0 +1,28 @@
+
+{
+    "Name": "Store",
+    "Types": [
+        {
+            "Name": "Store.Services.Log",
+            "Logging Methods": [
+                {
+                    "Name": "LogOrders",
+                    "Parameters": [
+                        {
+                            "Name": "logger",
+                            "Type": "Microsoft.Extensions.Logging.ILogger",
+                            "File": "/workspaces/Microapps-and-Microservices-with-.Net-and-ASP.Net-Core/dotnet-compliance/eShopLite/Store/Services/ProductService.cs",
+                            "Line": "98"
+                        },
+                        {
+                            "Name": "order",
+                            "Type": "DataEntities.Order",
+                            "File": "/workspaces/Microapps-and-Microservices-with-.Net-and-ASP.Net-Core/dotnet-compliance/eShopLite/Store/Services/ProductService.cs",
+                            "Line": "98"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
