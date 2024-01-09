@@ -1,0 +1,60 @@
+
+{
+    "Name": "DataEntities",
+    "Types": [
+        {
+            "Name": "DataEntities.Order",
+            "Members": [
+                {
+                    "Name": "CustomerAddress",
+                    "Type": "string",
+                    "File": "/workspaces/Microapps-and-Microservices-with-.Net-and-ASP.Net-Core/dotnet-compliance/eShopLite/DataEntities/Order.cs",
+                    "Line": "23",
+                    "Classifications": [
+                        {
+                            "Name": "EUIIData"
+                        }
+                    ]
+                },
+                {
+                    "Name": "CustomerName",
+                    "Type": "string",
+                    "File": "/workspaces/Microapps-and-Microservices-with-.Net-and-ASP.Net-Core/dotnet-compliance/eShopLite/DataEntities/Order.cs",
+                    "Line": "20",
+                    "Classifications": [
+                        {
+                            "Name": "EUIIData"
+                        }
+                    ]
+                },
+                {
+                    "Name": "Id",
+                    "Type": "int",
+                    "File": "/workspaces/Microapps-and-Microservices-with-.Net-and-ASP.Net-Core/dotnet-compliance/eShopLite/DataEntities/Order.cs",
+                    "Line": "11",
+                    "Classifications": [
+                        {
+                            "Name": "EUPData"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "DataEntities.Product",
+            "Members": [
+                {
+                    "Name": "Id",
+                    "Type": "int",
+                    "File": "/workspaces/Microapps-and-Microservices-with-.Net-and-ASP.Net-Core/dotnet-compliance/eShopLite/DataEntities/Product.cs",
+                    "Line": "11",
+                    "Classifications": [
+                        {
+                            "Name": "EUPData"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
