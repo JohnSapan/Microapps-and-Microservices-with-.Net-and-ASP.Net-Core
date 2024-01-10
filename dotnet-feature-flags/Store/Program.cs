@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Retrieve the connection string
-string connectionString = builder.Configuration.GetConnectionString("AppConfig");
+var connectionString = builder.Configuration.GetConnectionString("AppConfig");
 
 // Load configuration from Azure App Configuration
 builder.Configuration.AddAzureAppConfiguration(options => {
@@ -15,6 +15,7 @@ builder.Configuration.AddAzureAppConfiguration(options => {
     .UseFeatureFlags();
 });
 
+// Register the Feature Management library's services
 builder.Services.AddFeatureManagement();
 builder.Services.AddAzureAppConfiguration();
 
@@ -48,6 +49,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+ // Add the App Configuration middleware
 app.UseAzureAppConfiguration();
 
 app.Run();

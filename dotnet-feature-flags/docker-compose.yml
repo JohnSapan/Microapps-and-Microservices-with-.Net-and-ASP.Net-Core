@@ -10,7 +10,7 @@ services:
     environment: 
       - ProductEndpoint=http://backend:8080
       - ImagePrefix=http://localhost:32001/images
-      - ConnectionStrings:AppConfig=Endpoint=https://eshop-app-features.azconfig.io;Id=QWQy;Secret=V/4r/rhg/0tdy2L/AmMfBUcgTrYC4krRC7uFqbjRvDU=
+      - ConnectionStrings:AppConfig=Endpoint=https://eshop-app-features1383572767.azconfig.io;Id=V52E;Secret=DlG8gKDbJYa4idygXg/BOxit31rdGWYFz/N2VwlG678=
     ports:
       - "32000:8080"
     depends_on: 
