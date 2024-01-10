@@ -50,6 +50,8 @@ else
                     <td><img height="80" width="80" src="@imagePrefix/@product.ImageUrl" /></td>
                     <td>@product.Name</td>
                     <td>@product.Description</td>
+
+                    @* Update to display the discounted prices *@
                     <td>
                       @if (saleOn) {
                         <strike>@(product.Price)</strike><br>
@@ -68,6 +70,7 @@ else
     private List<Product>? products;
     private string imagePrefix = string.Empty;
     private bool saleOn = false;
+    // Store the state of the feature flag
     private decimal discountPercentage;
 
     protected override async Task OnInitializedAsync()
